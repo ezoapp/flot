@@ -1,0 +1,104 @@
+<script src="flot/excanvas.js"></script>
+<script src="flot/plugins/lib/base64.js"></script>
+<script src="flot/plugins/lib/canvas2image.js"></script>
+<script src="flot/jquery.flot.js"></script>
+<script src="flot/jquery.flot.canvas.js"></script>
+<script src="flot/jquery.flot.categories.js"></script>
+<script src="flot/plugins/jquery.flot.axislabels.js"></script>
+<script src="flot/plugins/jquery.flot.tooltip.js"></script>
+<script src="flot/plugins/jquery.flot.valuelabels.js"></script>
+<script src="flot/plugins/jquery.flot.saveAsImage.js"></script>
+
+<element name='flot-bar'>
+
+  <template>
+    <div id='{{id}}' class='{{class}}' style='{{style}}' width='{{width}}' height='{{height}}' xlabel='{{xlabel}}'
+         ylabel='{{ylabel}}' mode='{{mode}}' valueLabels='{{valueLabels}}' barWidth='{{barWidth}}'
+         xTicks='{{xTicks}}'>
+      <content></content>
+    </div>
+  </template>
+
+  <script>
+    var proto = function () {
+      'use strict';
+
+      var self = this,
+              $ele = self.$ele,
+              _options = {
+                grid: {
+                  backgroundColor: {
+                    colors: ['#fff', '#fff']
+                  },
+                  hoverable: $ele.attr('hoverable') === 'true' || $ele.attr('tooltip') === 'true'
+                },
+                series: {
+                  bars: {
+                    align: 'center',
+                    barWidth: $ele.attr('barWidth') ? +$ele.attr('barWidth') : 1,
+                    fillColor: {
+                      colors: [
+                        {
+                          opacity: 1
+                        },
+                        {
+                          opacity: 0
+                        }
+                      ]
+                    },
+                    show: true
+                  },
+                  canvasRender: true,
+                  valueLabels: {
+                    show: $ele.attr('valueLabels') === 'true'
+                  }
+                },
+                tooltip: $ele.attr('tooltip') === 'true',
+                xaxis: {
+                  axisLabel: $ele.attr('xlabel'),
+                  axisLabelPadding: 10,
+                  axisLabelUseCanvas: true,
+                  mode: $ele.attr('mode'),
+                  ticks: $ele.attr('xTicks') ? function () {
+                    var ticks = [];
+                    var xTicks = $ele.attr('xTicks').split(',');
+                    for (var i = 0; i < xTicks.length; i++) {
+                      ticks.push([i, xTicks[i]]);
+                    }
+                    return ticks;
+                  } : null
+                },
+                yaxis: {
+                  axisLabel: $ele.attr('ylabel'),
+                  axisLabelUseCanvas: true
+                }
+              };
+
+      this.init = function () {
+        var defaults = {
+          width: '100%',
+          height: '100%'
+        };
+        var settings = $.extend(defaults, {
+          width: $ele.attr('width'),
+          height: $ele.attr('height')
+        });
+        $ele.css(settings);
+      };
+
+      this.render = function (data, options) {
+        $.extend(true, _options, options);
+        return $.plot($ele, data, _options);
+      };
+
+      return this;
+    };
+
+    registerElement('flot-bar', {
+      init: function () {
+        proto.apply(this).init();
+      }
+    });
+  </script>
+
+</element>

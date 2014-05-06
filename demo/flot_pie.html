@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src='../../requirejs/require.js'></script>
+  <script src='../../jquery/jquery.min.js'></script>
+  <script src='../../jquery.gk/jquery.gk.min.js'></script>
+  <script baseUrl='../../../' components='components/flot/flot-pie.html' src='../../gk-loader/gk-loader.min.js'></script>
+  <script type="text/javascript">
+  $(document).on("gkComponentsReady", function() {
+
+    var data = [{
+      label: 'A2',
+      data: 10
+    }, {
+      label: 'A2',
+      data: 30
+    }, {
+      label: 'A3',
+      data: 90
+    }, {
+      label: 'A5',
+      data: 70
+    }, {
+      label: 'C1',
+      data: 80
+    }, {
+      label: 'C2',
+      data: 110
+    }];
+
+    $('#pie').gk('render', data);
+
+  });
+  </script>
+</head>
+
+<body>
+  <div id='pie' is='flot-pie' height="500px" showLegend='true'></div>
+</body>
+
+</html>

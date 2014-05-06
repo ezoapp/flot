@@ -1,0 +1,19 @@
+{
+  "name": "flot",
+  "license": "MIT",
+  "dependencies": {
+    "gk-loader": "master",
+    "jquery": "~1.9.1"
+  },
+  "homepage": "https://github.com/ezouibuilder/flot",
+  "_release": "09137d5ccd",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "09137d5ccd00e4ea8851e1ddfff59237cda41024"
+  },
+  "_source": "https://github.com/ezouibuilder/flot.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/ezouibuilder/flot.git",
+  "_direct": true
+}

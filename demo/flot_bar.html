@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <script src='../../requirejs/require.js'></script>
+  <script src='../../jquery/jquery.min.js'></script>
+  <script src='../../jquery.gk/jquery.gk.min.js'></script>
+  <script baseUrl='../../../' components='components/flot/flot-bar.html'
+          src='../../gk-loader/gk-loader.min.js'></script>
+  <script type="text/javascript">
+    $(document).on("gkComponentsReady", function () {
+
+      var data = [
+        {
+          label: 'Games',
+          data: [
+            ['Games', 32]
+          ]
+        },
+        {
+          label: 'Facebook',
+          data: [
+            ['Facebook', 17]
+          ]
+        },
+        {
+          label: 'Browser',
+          data: [
+            ['Browser', 14]
+          ]
+        },
+        {
+          label: 'Social Messaging',
+          data: [
+            ['Social Messaging', 9.5]
+          ]
+        },
+        {
+          label: 'YouTube',
+          data: [
+            ['YouTube', 4]
+          ]
+        },
+        {
+          label: 'Entertainment',
+          data: [
+            ['Entertainment', 4]
+          ]
+        },
+        {
+          label: 'Utilities',
+          data: [
+            ['Utilities', 8]
+          ]
+        },
+        {
+          label: 'News',
+          data: [
+            ['News', 3]
+          ]
+        },
+        {
+          label: 'Productivity',
+          data: [
+            ['Productivity', 4]
+          ]
+        },
+        {
+          label: 'Other',
+          data: [
+            ['Other', 4.5]
+          ]
+        }
+      ];
+
+      $('#bar').gk('render', data);
+    });
+  </script>
+</head>
+
+<body>
+<div id='bar' is='flot-bar' height='400px' xlabel='App categories' ylabel='Percentage of time spent(%)'
+     mode='categories' valueLabels='true'
+     barWidth='0.5'>
+</div>
+</body>
+
+</html>

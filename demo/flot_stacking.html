@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <script src='../../requirejs/require.js'></script>
+  <script src='../../jquery/jquery.min.js'></script>
+  <script src='../../jquery.gk/jquery.gk.min.js'></script>
+  <script baseUrl='../../../' components='components/flot/flot-stacking.html'
+          src='../../gk-loader/gk-loader.min.js'></script>
+  <script type="text/javascript">
+    $(document).on("gkComponentsReady", function () {
+      var data = [
+        {
+          label: 'Apps',
+          data: [
+            [0, 80],
+            [1, 86],
+          ],
+          color: '#50b4f6'
+        },
+        {
+          label: 'Mobile Web',
+          data: [
+            [0, 20],
+            [1, 14],
+          ],
+          color: '#9e9e9e'
+        }
+      ];
+      $('#stack').gk('render', data);
+    });
+  </script>
+</head>
+
+<body>
+<div id='stack' is='flot-stacking' height='400px' width='400px' stack='true' xlabel='Year' ylabel='Percentage of time spent(%)'
+     mode='categories' valueLabels='true'
+     xTicks='2013,2014' barWidth='0.4'>
+</div>
+</body>
+
+</html>
