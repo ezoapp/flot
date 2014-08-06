@@ -3,6 +3,7 @@
   "license": "MIT",
   "dependencies": {
     "gk-loader": "master",
+    "gk-ext": "master",
     "jquery": "~1.9.1"
   }
 }

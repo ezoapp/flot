@@ -13,82 +13,81 @@
 <element name='flot-line'>
 
   <template>
-    <div id='{{id}}' class='{{class}}' style='{{style}}' width='{{width}}' height='{{height}}' xlabel='{{xlabel}}'
-         ylabel='{{ylabel}}' mode='{{mode}}' valueLabels='{{valueLabels}}' showPoints="{{showPoints}}"
-         showLabels="{{showLabels}}" labelPlacement="{{labelPlacement}}">
+    <div id='{{id}}' class='{{class}}' style='{{style}}' width='{{width}}' height='{{height}}' xlabel='{{xlabel}}' ylabel='{{ylabel}}' mode='{{mode}}' valueLabels='{{valueLabels}}' showPoints="{{showPoints}}" showLabels="{{showLabels}}" labelPlacement="{{labelPlacement}}">
       <content></content>
     </div>
   </template>
 
   <script>
-    var proto = function () {
-      'use strict';
-      var self = this,
-              $ele = self.$ele,
-              _options = {
-                grid: {
-                  backgroundColor: {
-                    colors: ['#fff', '#fff']
-                  },
-                  hoverable: $ele.attr('hoverable') === 'true' || $ele.attr('tooltip') === 'true'
-                },
-                series: {
-                  lines: {
-                    show: true
-                  },
-                  points: {
-                    show: $ele.attr('showPoints') === 'false' ? false : true
-                  },
-                  showLabels: $ele.attr('showLabels') === 'false' ? false : true,
-                  labelPlacement: $ele.attr('labelPlacement') || 'above',
-                  canvasRender: true,
-                  valueLabels: {
-                    show: $ele.attr('valueLabels') === 'true'
-                  }
-                },
-                tooltip: $ele.attr('tooltip') === 'true',
-                xaxis: {
-                  autoscaleMargin: 0.04,
-                  axisLabel: $ele.attr('xlabel'),
-                  axisLabelPadding: 10,
-                  axisLabelUseCanvas: true,
-                  font: {
-                    color: "#545454" //避免被 jquery.mobile 樣式蓋掉
-                  },
-                  mode: $ele.attr('mode')
-                },
-                yaxis: {
-                  autoscaleMargin: 0.02,
-                  axisLabel: $ele.attr('ylabel'),
-                  axisLabelUseCanvas: true
-                }
-              };
-
-      this.init = function () {
-        var defaults = {
-          width: '100%',
-          height: '100%'
-        };
-        var settings = $.extend(defaults, {
-          width: $ele.attr('width'),
-          height: $ele.attr('height')
-        });
-        $ele.css(settings);
+  var proto = function() {
+    'use strict';
+    
+    var self = this,
+      $ele = self.$ele,
+      _options = {
+        grid: {
+          backgroundColor: {
+            colors: ['#fff', '#fff']
+          },
+          hoverable: $ele.attr('hoverable') === 'true' || $ele.attr('tooltip') === 'true'
+        },
+        series: {
+          lines: {
+            show: true
+          },
+          points: {
+            show: $ele.attr('showPoints') === 'false' ? false : true
+          },
+          showLabels: $ele.attr('showLabels') === 'false' ? false : true,
+          labelPlacement: $ele.attr('labelPlacement') || 'above',
+          canvasRender: true,
+          valueLabels: {
+            show: $ele.attr('valueLabels') === 'true'
+          }
+        },
+        tooltip: $ele.attr('tooltip') === 'true',
+        xaxis: {
+          autoscaleMargin: 0.04,
+          axisLabel: $ele.attr('xlabel'),
+          axisLabelPadding: 10,
+          axisLabelUseCanvas: true,
+          font: {
+            color: "#545454" //避免被 jquery.mobile 樣式蓋掉
+          },
+          mode: $ele.attr('mode')
+        },
+        yaxis: {
+          autoscaleMargin: 0.02,
+          axisLabel: $ele.attr('ylabel'),
+          axisLabelUseCanvas: true
+        }
       };
 
-      this.render = function (data, options) {
-        $.extend(true, _options, options);
-        return $.plot($ele, data, _options);
+    this.init = function() {
+      var defaults = {
+        width: '100%',
+        height: '100%'
       };
-
-      return this;
+      var settings = $.extend(defaults, {
+        width: $ele.attr('width'),
+        height: $ele.attr('height')
+      });
+      $ele.css(settings);
     };
 
-    registerElement('flot-line', {
-      init: function () {
-        proto.apply(this).init();
-      }
-    });
+    this.render = function(data, options) {
+      $.extend(true, _options, options);
+      return $.plot($ele, data, _options);
+    };
+
+    return this;
+  };
+
+  registerElement('flot-line', {
+    init: function() {
+      proto.apply(this).init();
+    }
+  });
   </script>
 
 </element>
