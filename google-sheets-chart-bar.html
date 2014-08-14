@@ -4,11 +4,11 @@
 <element name='google-sheets-chart-bar'>
 
   <template>
-    <div id="{{id}}" key="{{key}}">
+    <div id="{{id}}">
       <div id="{{id}}_chartbar" class='{{class}}' style='{{style}}' width='{{width}}' height='{{height}}' xlabel='{{xlabel}}' ylabel='{{ylabel}}' mode='{{mode}}' valueLabels='{{valueLabels}}' barWidth='{{barWidth}}' xTicks='{{xTicks}}' is="flot-bar">
         <content></content>
       </div>
-      <gk-google-sheets id="{{id}}_sheet"></gk-google-sheets>
+      <gk-google-sheets id="{{id}}_sheet" key="{{key}}" headers="{{headers}}" gid="{{gid}}" range="{{range}}" query="{{query}}"></gk-google-sheets>
     </div>
   </template>
 
@@ -17,21 +17,23 @@
     return '#' + $ele.closest('[data-role="page"]').attr('id');
   }
 
-  function convertSheetData(data) {
-    var ret = [];
-    data.forEach(function(row) {
-      var o = {};
-      o.label = row.title.$t;
-      Object.keys(row).forEach(function(key) {
-        if (key.indexOf('gsx$') === 0) {
-          o.data = [
-            [o.label, row[key]['$t']]
-          ];
-        }
+  function convertSheetData(table) {
+    var cellVal = function(cell) {
+      return cell ? ('f' in cell ? cell.f : cell.v) : "";
+    };
+    return $.map(table.rows, function(row) {
+      var c1 = row.c[0],
+        o = {
+          label: cellVal(c1),
+          data: [
+            []
+          ]
+        };
+      row.c.forEach(function(cell, idx) {
+        o.data[0].push(cellVal(cell));
       });
-      ret.push(o);
+      return o;
     });
-    return ret;
   }
 
   registerElement('google-sheets-chart-bar', {
@@ -44,8 +46,8 @@
         doInit = function() {
           var $chartbar = $ele.find('#' + self.id + '_chartbar'),
             $sheet = $ele.find('#' + self.id + '_sheet');
-          $sheet.on('data', function() {
-            $chartbar.gk('render', convertSheetData($sheet.gk().rows));
+          $sheet.on('data', function(e, table) {
+            $chartbar.gk('render', convertSheetData(table));
           });
           self.$sheet = $sheet;
           self.refresh();
@@ -58,7 +60,7 @@
     },
 
     refresh: function() {
-      this.$sheet.attr('key', this.$ele.attr('key')).gk('refresh');
+      this.$sheet.gk('refresh');
     }
 
   });
