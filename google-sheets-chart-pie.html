@@ -13,9 +13,8 @@
   </template>
 
   <script>
-  function getPageId($ele) {
-    return '#' + $ele.closest('[data-role="page"]').attr('id');
-  }
+  var utils = require('../gk-ext/js/utils'),
+    properties = ['key', 'headers', 'gid', 'range', 'query'];
 
   function convertSheetData(table) {
     var cellVal = function(cell) {
@@ -38,29 +37,28 @@
 
   registerElement('google-sheets-chart-pie', {
 
-    $sheet: null,
-
     init: function() {
       var self = this,
         $ele = self.$ele,
-        doInit = function() {
-          var $chartpie = $ele.find('#' + self.id + '_chartpie'),
-            $sheet = $ele.find('#' + self.id + '_sheet');
-          $sheet.on('data', function(e, table) {
-            $chartpie.gk('render', convertSheetData(table));
-          });
-          self.$sheet = $sheet;
-          self.refresh();
-        };
-      if ($.mobile) {
-        $(document).on('pageinit', getPageId($ele), doInit);
-      } else {
-        doInit();
-      }
+        $chartpie = $ele.find('#' + self.id + '_chartpie'),
+        $sheet = $ele.find('#' + self.id + '_sheet');
+
+      utils.exposeProperties(properties, self,
+        function(attr) {
+          return $sheet.gk()[attr];
+        },
+        function(attr, val) {
+          $sheet.gk()[attr] = val;
+        }
+      );
+
+      $sheet.on('data', function(e, table) {
+        $chartpie.gk('render', convertSheetData(table));
+      });
     },
 
     refresh: function() {
-      this.$sheet.gk('refresh');
+      this.$ele.find('#' + this.id + '_sheet').gk('refresh');
     }
 
   });
