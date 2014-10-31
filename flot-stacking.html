@@ -84,8 +84,9 @@
     };
 
     this.render = function(data, options) {
-      $.extend(true, _options, options);
-      return $.plot($ele, data, _options);
+      var ops = {};
+      $.extend(true, ops, _options, options);
+      return $.plot($ele, data, ops);
     };
 
     return this;
