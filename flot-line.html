@@ -4,10 +4,11 @@
 <script src="flot/jquery.flot.js"></script>
 <script src="flot/jquery.flot.canvas.js"></script>
 <script src="flot/jquery.flot.categories.js"></script>
+<script src="flot/jquery.flot.time.js"></script>
+<script src="flot/plugins/jquery.flot.tickrotor.js"></script>
 <script src="flot/plugins/jquery.flot.labels.js"></script>
 <script src="flot/plugins/jquery.flot.axislabels.js"></script>
 <script src="flot/plugins/jquery.flot.tooltip.js"></script>
-<script src="flot/plugins/jquery.flot.valuelabels.js"></script>
 <script src="flot/plugins/jquery.flot.saveAsImage.js"></script>
 
 <element name='flot-line'>
@@ -19,7 +20,9 @@
   </template>
 
   <script>
-  var proto = function() {
+  var utils = require('./js/utils');
+    
+  var proto = function () {
     'use strict';
     
     var self = this,
@@ -36,9 +39,9 @@
             show: true
           },
           points: {
-            show: $ele.attr('showPoints') === 'false' ? false : true
+            show: $ele.attr('showPoints') !== 'false'
           },
-          showLabels: $ele.attr('showLabels') === 'false' ? false : true,
+          showLabels: $ele.attr('showLabels') !== 'false',
           labelPlacement: $ele.attr('labelPlacement') || 'above',
           canvasRender: true,
           valueLabels: {
@@ -75,10 +78,12 @@
       $ele.css(settings);
     };
 
-    this.render = function(data, options) {
-      var ops = {};
+    this.render = function (data, options) {
+      var plot, ops = {};
       $.extend(true, ops, _options, options);
-      return $.plot($ele, data, ops);
+      plot = $.plot($ele, data, ops);
+      utils.valueLabels($ele);
+      return plot;
     };
 
     return this;
